@@ -103,6 +103,16 @@
                     </td>
                 </tr>
             @endif
+            @if (isset( $r->bgp->ext_communities ))
+                <tr>
+                    <td><strong>BGP :: Extended Communities</strong></td>
+                    <td>
+                        @foreach( $r->bgp->ext_communities as $c )
+                            ({{implode(', ',$c)}})
+                        @endforeach
+                    </td>
+                </tr>
+            @endif
             @if (isset( $r->bgp->large_communities ))
                 <tr>
                     <td><strong>BGP :: Large Communities</strong></td>

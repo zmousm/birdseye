@@ -124,6 +124,19 @@ class Routes extends Parser
                     }
                 }
             }
+            else if( preg_match( "/^\s+BGP.ext_community:\s+(.+)\s*$/", $line, $matches ) ) {
+                // BGP.ext_community: (ro, 1, 111)
+                // BGP.large_community: (ro, 1, 111) (rt, 156, 111) (soo, 192.0.2.123, 111)
+                $m = substr( trim( $matches[1] ), 1, -1 );
+                foreach( explode( ') (', $m ) as $community ) {
+                    if( preg_match( "/^(\d+),\s*(\d+),\s*(\d+)/", trim( $community ), $matches ) ) {
+                        $c = [ $matches[1], $matches[2], (int)$matches[3] ];
+                        if( !isset( $r['bgp']['ext_communities'] ) || !in_array( $c, $r['bgp']['ext_communities'] ) ) {
+                            $r['bgp']['ext_communities'][] = $c;
+                        }
+                    }
+                }
+            }
             else if( preg_match( "/^\s+BGP.large_community:\s+(.+)\s*$/", $line, $matches ) ) {
                 // BGP.large_community: (999, 1, 111)
                 // BGP.large_community: (999, 1, 111) (999, 156, 111) (999, 157, 111)

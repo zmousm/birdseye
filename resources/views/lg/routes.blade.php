@@ -49,6 +49,12 @@
                 @endif
             </span>
 
+            @if( isset( $r->bgp->ext_communities ) )
+                <span class="badge">EC:
+                    {{ count( $r->bgp->ext_communities ) }}
+                </span>
+            @endif
+
             @if( isset( $r->bgp->large_communities ) )
                 <span class="badge">LC:
                     {{ count( $r->bgp->large_communities ) }}
